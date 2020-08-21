@@ -1,7 +1,7 @@
 from settings import *
 import socket
 from DB import *
-from packets import *
+from packs import *
 from os import system
 #import term
 
