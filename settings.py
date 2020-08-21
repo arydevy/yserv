@@ -14,7 +14,7 @@ PORT=25565
 #max players 
 MAX=20
 #public if the server is public or not (is showed in the server list)
-PUBLIC=False
+PUBLIC=True
 #salt (a random text)
 SALT='wo6kVAHjxoJcInKxjdj'
 
