@@ -43,6 +43,7 @@ def join(client):
 	write_string(client,MOTD)
 	#usertype
 	write_byte(client,0x00)
+	#send the map and spown the player 
 	mapsend(client)
 	spownPlayer(client)
 
