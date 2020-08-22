@@ -1,3 +1,4 @@
+import struct
 #================read write functions start=========#
 def read_byte(client):
 	return client.recv(1)
