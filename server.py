@@ -31,9 +31,9 @@ server=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 server.bind(('',PORT))
 server.listen(5)
-
+on=True
 ##server main loop 
-while True:
+while on:
 	#accept connections 
 	(client, addr) = server.accept()
 	#print(str(client.recv(10), 'utf-8'))

@@ -26,14 +26,14 @@ def player_join(client):
 	data = (SALT+username).encode('utf-8')
 	if ver_key == hashlib.md5(data).hexdigest():
 		print(f'{username} joined!')
-		join(client)
+		join(client,username)
 	else:
 		print(f'{username} tryed to join the server!')
 		print('or joined via directconnect!!!')
-		join(client)
+		join(client,username)
 
 
-def join(client):
+def join(client,username):
 	#pack id
 	write_byte(client,0x00)
 	#protocol version
@@ -45,7 +45,7 @@ def join(client):
 	write_byte(client,0x00)
 	#send the map and spown the player 
 	mapsend(client)
-	spownPlayer(client)
+	spownPlayer(client,username,100,1000,100,0,0)
 
 def mapsend(client):
 	#init 
@@ -70,15 +70,15 @@ def mapsend(client):
 	write_short(client,LENGTH)
 	print('map send')
 
-def spownPlayer(client):
+def spownPlayer(client,user,x,y,z,i,h):
 	#send pkid
 	write_byte(client,0x07)
 	write_byte(client,255)
-	write_string(client,'arydev')
-	write_short(client,0)#x
-	write_short(client,100)#y
-	write_short(client,0)#z
+	write_string(client,user)
+	write_short(client,x)#x
+	write_short(client,y)#y
+	write_short(client,z)#z
 	#y h
-	write_byte(client,0)
-	write_byte(client,0)
+	write_byte(client,i)
+	write_byte(client,h)
 #===============PACK functions end===================#
