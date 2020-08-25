@@ -1,6 +1,5 @@
 from packs.settings import *
 import socket
-from DB import *
 from packs import *
 from packs.packets import*
 from os import system
@@ -17,11 +16,11 @@ s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 #connect 
 s.connect(("classicube.net",80))
 
-#send the hertbeast
+#send the hertbeat
 s.sendall(heart)
 
 
-# send the link
+# get the responce
 print(str(s.recv(3000), 'utf-8'))
 
 
@@ -36,6 +35,7 @@ on=True
 while on:
 	#accept connections 
 	(client, addr) = server.accept()
+	print(client)
 	#print(str(client.recv(10), 'utf-8'))
 
 	client_server(client)

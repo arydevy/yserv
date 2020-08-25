@@ -1,16 +1,9 @@
 from packs.settings import *
-from DB import *
 import hashlib
-from map import Map
 import gzip
 import struct
 from packs.packfun import*
 from packs.wr import*
-
-
-WIDTH=128
-HEIGHT=32
-LENGTH=128
 
 
 

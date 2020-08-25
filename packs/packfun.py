@@ -1,13 +1,10 @@
 from packs.wr import*
 from packs.settings import *
 import hashlib
-WIDTH=128
-HEIGHT=32
-LENGTH=128
 from packs.settings import *
-from DB import *
+from packs.online import users
 import hashlib
-from map import Map
+from map import *
 import gzip
 import struct
 
@@ -34,6 +31,7 @@ def player_join(client):
 
 
 def join(client,username):
+	users.append(client)
 	#pack id
 	write_byte(client,0x00)
 	#protocol version
@@ -43,32 +41,33 @@ def join(client,username):
 	write_string(client,MOTD)
 	#usertype
 	write_byte(client,0x00)
-	#send the map and spown the player 
-	mapsend(client)
-	spownPlayer(client,username,100,1000,100,0,0)
+	#send the map and spown the player
+	for i in users:
+		cl=users[i]
+	data,spawnx,spawny,spawnz,spawnh,spawnp=mapsend(cl)
+	spownPlayer(cl,username,spawnx,spawny,spawnz,spawnh,spawnp)
 
 def mapsend(client):
 	#init 
 	write_byte(client,0x02)
 	#send level
-	#main=Map(10, 10, 10, 'main')
-	#main.load('main.cw')
+	data,x,y,z,spawnx,spawny,spawnz,spawnh,spawnp,volume=load('main.cw')
 	
-	map = bytearray(WIDTH * HEIGHT * LENGTH)
+	#map = bytearray(x* y * z)
 
-	input = struct.pack('>I', len(map)) + map
+	input = struct.pack('>I', len(data)) + data
 	output = gzip.compress(input)
 
 	for i in range(0, len(output), 1024):
 		chunk = output[i: i + 1024]
 		client.send(struct.pack('>BH1024sB', 0x03, len(chunk), chunk, 0x00))
-		print('sending')
 	#map end
 	write_byte(client,0x04)
-	write_short(client,WIDTH)
-	write_short(client,HEIGHT)
-	write_short(client,LENGTH)
+	write_short(client,x)
+	write_short(client,y)
+	write_short(client,z)
 	print('map send')
+	return data,spawnx,spawny,spawnz,spawnh,spawnp
 
 def spownPlayer(client,user,x,y,z,i,h):
 	#send pkid
@@ -81,4 +80,10 @@ def spownPlayer(client,user,x,y,z,i,h):
 	#y h
 	write_byte(client,i)
 	write_byte(client,h)
+
+#set_block
+def set_block(data,Position,block_id,x,y,z):
+		index = position.x + (position.z * x) + ((x * z) * position.y)
+		if index < len(data):
+			data[index] = block_id
 #===============PACK functions end===================#
