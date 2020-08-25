@@ -15,7 +15,7 @@ def client_server(client):
 	#player identification
 	if id == '0x00' or '\x00':player_join(client)
 	#set block
-	if id == '0x05':pass
+	if id == '0x05':set_block(p)
 	#player orentation and position
 	if id == '0x08':pass
 	if id == '0x0d':pass

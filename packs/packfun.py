@@ -43,9 +43,8 @@ def join(client,username):
 	write_byte(client,0x00)
 	#send the map and spown the player
 	for i in users:
-		cl=users[i]
-	data,spawnx,spawny,spawnz,spawnh,spawnp=mapsend(cl)
-	spownPlayer(cl,username,spawnx,spawny,spawnz,spawnh,spawnp)
+		data,spawnx,spawny,spawnz,spawnh,spawnp=mapsend(i)
+		spownPlayer(i,username,spawnx,spawny,spawnz,spawnh,spawnp)
 
 def mapsend(client):
 	#init 
@@ -82,8 +81,50 @@ def spownPlayer(client,user,x,y,z,i,h):
 	write_byte(client,h)
 
 #set_block
-def set_block(data,Position,block_id,x,y,z):
-		index = position.x + (position.z * x) + ((x * z) * position.y)
-		if index < len(data):
-			data[index] = block_id
+#def set_block(data,Position,block_id,x,y,z):
+		#index = position.x + (position.z * x) + ((x * z) * position.y)
+		#if index < len(data):
+			#data[index] = block_id
+#building
+def set_block(p):
+	x=read_int(p)
+	y=read_int(p)
+	z=read_int(p)
+
+	action=read_byte(p)
+	block_id=read_byte(p)
+
+	if action is 0x01:place(x, y, z, block_id,p)
+	if action is 0x00:pass #delete
+
+def place(x,y,z,Block,client):
+	write_byte(client,0x06)
+
+	write_short(client,x)
+	write_short(client,y)
+	write_short(client,z)
+
+	write_short(client,Block)
+
+#mooving
+def pos():
+	for p in users:
+		p_id=read_byte(p)
+
+		x=read_int(p)
+		y=read_int(p)
+		z=read_int(p)
+		yaw=read_int(client)
+		pitch=read_int(client)
+
+#chat
+def p_console():
+	p=users[0]
+
+	unused=read_byte(p)
+	print(msg=read_string(p))
+
+def c_player(client):
+	write_byte(client,0x0d)
+
 #===============PACK functions end===================#

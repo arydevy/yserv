@@ -6,6 +6,9 @@ def read_byte(client):
 def read_string(client):
 	return str(client.recv(64),'utf-8')
 
+def read_int(client):
+	return int(client.recv(64))
+
 def write_byte(client,data):
 	client.send(struct.pack('>B', data))
 
